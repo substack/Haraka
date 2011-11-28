@@ -19,7 +19,7 @@ logger.LOGCRIT      = 2;
 logger.LOGALERT     = 1;
 logger.LOGEMERG     = 0;
 
-var loglevel = logger.LOGWARN;
+logger.loglevel = logger.LOGWARN;
 
 var deferred_logs = [];
 
@@ -64,13 +64,13 @@ logger._init_loglevel = function () {
     if (_loglevel) {
         var loglevel_num = parseInt(_loglevel);
         if (!loglevel_num || loglevel_num === NaN) {
-            loglevel = logger[_loglevel.toUpperCase()];
+            logger.loglevel = logger[_loglevel.toUpperCase()];
         }
         else {
-            loglevel = loglevel_num;
+            logger.loglevel = loglevel_num;
         }
-        if (!loglevel) {
-            loglevel = logger.LOGWARN;
+        if (!logger.loglevel) {
+            logger.loglevel = logger.LOGWARN;
         }
     }
 };
@@ -84,7 +84,7 @@ for (key in logger) {
             level = key.slice(3);
             logger[key.toLowerCase()] = (function(level, key) {
                 return function() {
-                    if (loglevel < logger[key])
+                    if (logger.loglevel < logger[key])
                         return;
                     var str = "[" + level + "] ";
                     for (var i = 0; i < arguments.length; i++) {

@@ -38,17 +38,18 @@ exports.stat_queue = function () {
     return this.stats();
 }
 
-exports.load_queue = function () {
+exports.load_queue = function (_queue_dir) {
+    if (!_queue_dir) _queue_dir = queue_dir;
     // Initialise and load queue
 
     // we create the dir here because this is used when Haraka is running
     // properly.
 
     // no reason not to do this stuff syncronously - we're just loading here
-    if (!path.existsSync(queue_dir)) {
-        this.logdebug("Creating queue directory " + queue_dir);
+    if (!path.existsSync(_queue_dir)) {
+        this.logdebug("Creating queue directory " + _queue_dir);
         try {
-            fs.mkdirSync(queue_dir, 493); // 493 == 0755
+            fs.mkdirSync(_queue_dir, 493); // 493 == 0755
         }
         catch (err) {
             if (err.code != 'EEXIST') {
