@@ -1,8 +1,8 @@
 "use strict";
 // a single connection
 var path        = require('path');
-var config      = require('./config');
 var logger      = require('./logger');
+var config      = require('./config');
 var trans       = require('./transaction');
 var dns         = require('dns');
 var plugins     = require('./plugins');
