@@ -36,6 +36,7 @@ var fs   = require('fs'),
     parsed = nopt(knownOpts, shortHands, process.argv, 2);
 
 var copyDir = require('../lib/util/copydir');
+var mkDir = require('../lib/util/mkdir');
 
 var usage = [
     "\033[32;40mHaraka.js\033[0m — A Node.js Email Server project",
@@ -80,37 +81,11 @@ var listPlugins = function (b, dir) {
 }
 
 
-// Show message when create 
-function create(path) {
-//  console.log('\x1b[32mcreate\x1b[0m: ' + path);
-}
-
-// Warning messsage
-function warning(msg) {
-    console.error('\x1b[31mwarning\x1b[0m: ' + msg);
-}
-
-function fail(msg) {
-    console.error('\x1b[31merror\x1b[0m: ' + msg);
-    process.exit(-1);
-}
-
-// Make directory if NOT exist
-function mkDir(dstPath) {
-    try {
-        fs.mkdirSync(dstPath, fs.statSync(__dirname).mode);
-        create(dstPath)
-    }
-    catch (e) {
-        // File exists
-        if (e.errno = 17) {
-            warning(e.message);
-        }
-        else {
-            throw e;
-        }
-    }
-}
+// Show messsages:
+var messages = require('../lib/util/messages.js');
+var warning = messages.warning;
+var create = messages.create;
+var fail = messages.fail;
 
 function setupHostname(confPath) {
     var hostname = os.hostname() + "\n";

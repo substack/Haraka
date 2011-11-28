@@ -1,5 +1,7 @@
 var mkdirp = require('mkdirp');
 var net = require('net');
+var path = require('path');
+var fs = require('fs');
 
 var logger = require('./logger');
 logger.loglevel = 0;
@@ -19,9 +21,10 @@ var haraka = module.exports = function (params) {
     return haraka.createServer(params);
 };
 
-haraka.install = function (basedir) {
-    mkdirp.sync(path.join(basedir, 'plugins'));
-    mkdirp.sync(path.join(basedir, 'docs/plugins'));
+haraka.install = function (basedir, mode) {
+    if (!mode) mode = 0700;
+    mkdirp.sync(path.join(basedir, 'plugins'), mode);
+    mkdirp.sync(path.join(basedir, 'docs/plugins'), mode);
     
     var configDir = path.join(basedir, 'config');
     if (path.existsSync(configDir)) return;
