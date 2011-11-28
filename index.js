@@ -2,6 +2,7 @@ var mkdirp = require('mkdirp');
 var net = require('net');
 var path = require('path');
 var fs = require('fs');
+var os = require('os');
 
 var logger = require('./logger');
 logger.loglevel = 0;
