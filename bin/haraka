@@ -35,7 +35,7 @@ var fs   = require('fs'),
     },
     parsed = nopt(knownOpts, shortHands, process.argv, 2);
 
-var copyDir = require('./lib/util/copydir');
+var copyDir = require('../lib/util/copydir');
 
 var usage = [
     "\033[32;40mHaraka.js\033[0m — A Node.js Email Server project",
