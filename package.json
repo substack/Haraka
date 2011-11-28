@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "cluster": ">= 0.6.1",
-    "nopt": ">= 1.0.5"
+    "nopt": ">= 1.0.5",
+    "mkdirp" : "0.2.x"
   },
   "licenses": [ {
     "type": "MIT",

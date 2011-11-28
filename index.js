@@ -1,3 +1,6 @@
+var mkdirp = require('mkdirp');
+var net = require('net');
+
 var logger = require('./logger');
 logger.loglevel = 0;
 
@@ -5,10 +8,19 @@ var conn = require('./connection');
 var plugins = require('./plugins');
 var Server = require('./server');
 var out = require('./outbound');
+var copyDir = require('./lib/util/copydir');
 
-var net = require('net');
+exports.install = function (basedir) {
+    mkdirp.sync(path.join(basedir, 'plugins'));
+    mkdirp.sync(path.join(basedir, 'docs/plugins'));
+    
+    copyDir(path.join(base, 'config'), path.join(pa, 'config'));
+    createFile(path.join(basedir, 'README'), readme);
+    createFile(path.join(basedir, 'package.json'), packageJson);
+    setupHostname(path.join(basedir, 'config'));
+};
 
-module.exports = function (params) {
+exports.createServer = function (params) {
     if (!params) params = {};
     if (typeof params === 'string') params = { basedir : params };
     
