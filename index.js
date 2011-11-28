@@ -10,7 +10,7 @@ var Server = require('./server');
 var out = require('./outbound');
 var copyDir = require('./lib/util/copydir');
 
-var haraka = module.exports = function () {
+var haraka = module.exports = function (params) {
     if (!params) params = {};
     if (typeof params === 'string') params = { basedir : params };
     if (!params.basedir) throw new Error('basedir parameter required');
