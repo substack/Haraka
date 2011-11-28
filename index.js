@@ -10,17 +10,35 @@ var Server = require('./server');
 var out = require('./outbound');
 var copyDir = require('./lib/util/copydir');
 
-exports.install = function (basedir) {
+var haraka = module.exports = function () {
+    if (!params) params = {};
+    if (typeof params === 'string') params = { basedir : params };
+    if (!params.basedir) throw new Error('basedir parameter required');
+    
+    haraka.install(params.basedir);
+    return haraka.createServer(params);
+};
+
+haraka.install = function (basedir) {
     mkdirp.sync(path.join(basedir, 'plugins'));
     mkdirp.sync(path.join(basedir, 'docs/plugins'));
     
-    copyDir(path.join(base, 'config'), path.join(pa, 'config'));
-    createFile(path.join(basedir, 'README'), readme);
-    createFile(path.join(basedir, 'package.json'), packageJson);
-    setupHostname(path.join(basedir, 'config'));
+    var configDir = path.join(basedir, 'config');
+    if (path.existsSync(configDir)) return;
+    
+    copyDir(path.join(__dirname, 'config'), configDir);
+    
+    fs.writeFileSync(
+        path.join(basedir, 'README'),
+        fs.readFileSync(__dirname + '/data/README')
+    );
+    fs.writeFileSync(
+        path.join(basedir, 'config/me'),
+        os.hostname() + '\n'
+    );
 };
 
-exports.createServer = function (params) {
+haraka.createServer = function (params) {
     if (!params) params = {};
     if (typeof params === 'string') params = { basedir : params };
     
